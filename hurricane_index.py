@@ -29,17 +29,24 @@ date_list = OrderedDict()
 
 ## DICTIONARY CREATION FUNCTIONS ##
     #Create main dictionary that houses all stats
-def main_dictionary(name, month):
+def main_dictionary(name, month, year, max_winds, areas, damage, death):
     for i in range(len(name)):
-        full_list[name[i]] = OrderedDict([("Month", month[i])])
+        full_list[name[i]] = OrderedDict([("Month", month[i]),("Year", year[i]),("Maximum winds", max_winds[i]),("Areas affected", areas[i]),("Damages", damage[i]),("Deaths", death[i])])
     return full_list
 
-main_dictionary(names, months)
+main_dictionary(names, months,years, max_sustained_winds, areas_affected, damages, deaths)
 print(full_list)
 
 
 
+    #Create function for hurricane dates
+def list_of_dates(name, month, year):
+    for i in range(len(name)):
+        date_list[name[i]] = OrderedDict([("Month", month[i]),("Year" , year[i])])
+    return full_list
 
+list_of_dates(names, months, years)
+print(date_list)
 
 ## MISC FUNCTIONS ##
     #Convert strings in damages to float
