@@ -28,6 +28,7 @@ date_list = OrderedDict()
 winds_list = OrderedDict()
 damages_list = OrderedDict()
 deaths_list = OrderedDict()
+landfall_list = OrderedDict()
 
 
 
@@ -71,6 +72,53 @@ def list_of_stats(name, list, stat, string):
         list[name[i]] = OrderedDict([(string, stat[i])])
     return list
 
+    #Loop through areas list
+def loop_through_areas(x):
+    list = []
+    for i in range(len(names)):
+        for j in x[names[i]]["Areas affected"]:
+            list.append(j)
+    return list
+
+    #Generate list of all locations used at least once
+def location_list_generator(list):
+    locations = []
+    for i in range(len(names)):
+        for j in list[names[i]]["Areas affected"]:
+            if j not in locations:
+                locations.append(j)
+            else:
+                continue
+    return locations
+
+    # Generate list of zeros for counting purposes
+def generate_zeros(x):
+    list = []
+    counter = range(len(x))
+    for i in counter:
+        list.append(0)
+    return list
+
+    #Tally up number of landfalls from zeros list
+def counter(zeros, loc, over):
+    counter = zeros
+    location = loc
+    overall = over
+    count = 0
+    for i in over:
+        for j in loc:
+            if i==j:
+                counter[count]+=1
+                count=0
+                break
+            count+=1
+    return counter
+
+    # Generate sorted list of location landfall frequencies
+def zip_list(x, y):
+    landfall_list = list(zip(x,y))
+    landfall_list.sort(reverse=True)
+    return landfall_list
 
     #Execute functions above
 main_dictionary(names, months,years, max_sustained_winds, areas_affected, damages, deaths)
@@ -79,12 +127,25 @@ list_of_stats(names, winds_list, max_sustained_winds, "Maximum Winds")
 list_of_stats(names, damages_list, damages_float, "Damages in USD")
 list_of_stats(names, deaths_list, deaths, "Deaths")
 
+    #Location list
+list_of_areas = loop_through_areas(full_list)
+location_list = location_list_generator(full_list)
+list_zeros = generate_zeros(location_list)
+number_of_landfalls = counter(list_zeros, location_list, list_of_areas)
+landfalls = zip_list(number_of_landfalls, location_list)
+fall = [x[0] for x in landfalls]
+land = [x[1] for x in landfalls]
+list_of_stats(land, landfall_list, fall, "Landfalls")
+
+
 # print(full_list)
 # print(date_list)
 # print(winds_list)
 # print(damages_list)
 # print(deaths_list)
 
+# print(location_list)
+# print(landfall_list)
 
 
 ## SORT HURRICANES ##
@@ -117,7 +178,7 @@ latest_hurricane = date_hurricane(date_list,-1)
 maximum_winds = top_hurricane(winds_list_sort)
 maximum_damage = top_hurricane(damages_list_sort)
 maximum_deaths = top_hurricane(deaths_list_sort)
-
+most_landfalls = top_hurricane(landfall_list)
 
 
 
@@ -125,23 +186,21 @@ maximum_deaths = top_hurricane(deaths_list_sort)
 
 ## PRINT FUNCTIONS ##
     #Print a list of dates
-def print_dates(list,string):
-    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
-    count = 40
+def print_dates(list,string, count):
+    print("\n\n\n\n\n" + str(string) + "\n---------------------------------------------------------------------------------")
     for key, value in list.items():
         while len(key) < count:
             key += " "
         print(str(key) + str(value.values()[0]) + ", " + str(value.values()[1]))
-    print("------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
 
-def print_stat(list,string):
-    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
-    count = 40
+def print_stat(list,string,count):
+    print("\n\n\n\n\n" + str(string) + "\n---------------------------------------------------------------------------------")
     for key, value in list.items():
         while len(key) < count:
             key += " "
         print(str(key) + str(value.values()[0]))
-    print("------------------------------------------------------------------")
+    print("---------------------------------------------------------------------------")
 
 
 
@@ -150,13 +209,16 @@ def print_stat(list,string):
 
 ### PRINT DATA TO CONSOLE ###
     #Print top hurricanes for each category
-print("Earliest hurricane: " + str(earliest_hurricane[0]) + " - " + str(earliest_hurricane[2]) + ", " + str(earliest_hurricane[1]))
-print("Latest hurricane  : " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
-print("Maximum winds     : " + str(maximum_winds[0]) + " - " + str(maximum_winds[1]))
-print("Most damage       : " + str(maximum_damage[0] + " - " + str(maximum_damage[1])))
-print("Most deaths       : " + str(maximum_deaths[0] + " - " + str(maximum_deaths[1])))
+print("Earliest hurricane   : " + str(earliest_hurricane[0]) + " - " + str(earliest_hurricane[2]) + ", " + str(earliest_hurricane[1]))
+print("Latest hurricane     : " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
+print("Maximum winds        : " + str(maximum_winds[0]) + " - " + str(maximum_winds[1]))
+print("Most damage          : " + str(maximum_damage[0] + " - " + str(maximum_damage[1])))
+print("Most deaths          : " + str(maximum_deaths[0] + " - " + str(maximum_deaths[1])))
+print("Region most affected : " + str(most_landfalls[0] + " - " + str(most_landfalls[1])))
+
     #Print lists
-print_dates(date_list, "DATES")
-print_stat(winds_list_sort, "MAXIMUM WINDS")
-print_stat(damages_list_sort, "DAMAGES IN USD (0 MEANS NOT RECORDED)")
-print_stat(deaths_list_sort, "DEATHS")
+print_dates(date_list, "DATES", 70)
+print_stat(winds_list_sort, "MAXIMUM WINDS", 70)
+print_stat(damages_list_sort, "DAMAGES IN USD (0 MEANS NOT RECORDED)", 70)
+print_stat(deaths_list_sort, "DEATHS", 70)
+print_stat(landfall_list, "REGIONS AFFECTED", 70)
