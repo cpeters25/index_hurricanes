@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 # names of hurricanes
 names = ['Cuba I', 'San Felipe II Okeechobee', 'Bahamas', 'Cuba II', 'CubaBrownsville', 'Tampico', 'Labor Day', 'New England', 'Carol', 'Janet', 'Carla', 'Hattie', 'Beulah', 'Camille', 'Edith', 'Anita', 'David', 'Allen', 'Gilbert', 'Hugo', 'Andrew', 'Mitch', 'Isabel', 'Ivan', 'Emily', 'Katrina', 'Rita', 'Wilma', 'Dean', 'Felix', 'Matthew', 'Irma', 'Maria', 'Michael']
 
@@ -18,6 +20,23 @@ damages = ['Damages not recorded', '100M', 'Damages not recorded', '40M', '27.9M
 
 # deaths for each hurricane
 deaths = [90,4000,16,3103,179,184,408,682,5,1023,43,319,688,259,37,11,2068,269,318,107,65,19325,51,124,17,1836,125,87,45,133,603,138,3057,74]
+
+# ordered dictionary placeholders
+full_list = OrderedDict()
+date_list = OrderedDict()
+
+
+
+## DICTIONARY CREATION FUNCTIONS ##
+    #Create main dictionary that houses all stats
+def main_dictionary(name, month):
+    for i in range(len(name)):
+        full_list[name[i]] = OrderedDict([("Month", month[i])])
+    return full_list
+
+main_dictionary(names, months)
+print(full_list)
+
 
 
 
