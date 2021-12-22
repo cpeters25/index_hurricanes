@@ -27,6 +27,7 @@ full_list = OrderedDict()
 date_list = OrderedDict()
 winds_list = OrderedDict()
 damages_list = OrderedDict()
+deaths_list = OrderedDict()
 
 
 
@@ -76,22 +77,25 @@ main_dictionary(names, months,years, max_sustained_winds, areas_affected, damage
 list_of_dates(names, months, years)
 list_of_stats(names, winds_list, max_sustained_winds, "Maximum Winds")
 list_of_stats(names, damages_list, damages_float, "Damages in USD")
-
+list_of_stats(names, deaths_list, deaths, "Deaths")
 
 # print(full_list)
 # print(date_list)
 # print(winds_list)
 # print(damages_list)
-
+# print(deaths_list)
 
 
 
 ## SORT HURRICANES ##
 winds_list_sort = OrderedDict(sorted(winds_list.items(), key=lambda x : x[1], reverse=True))
 damages_list_sort = OrderedDict(sorted(damages_list.items(), key=lambda x : x[1], reverse=True))
+deaths_list_sort = OrderedDict(sorted(deaths_list.items(), key=lambda x : x[1], reverse=True))
+
 
 # print(winds_list_sort)
 # print(damages_list_sort)
+# print(deaths_list_sort)
 
 ## LIST MILESTONE HURRICANES ##
     # Fund a specific hurricane and list dates for it
@@ -112,7 +116,7 @@ earliest_hurricane = date_hurricane(date_list,0)
 latest_hurricane = date_hurricane(date_list,-1)
 maximum_winds = top_hurricane(winds_list_sort)
 maximum_damage = top_hurricane(damages_list_sort)
-
+maximum_deaths = top_hurricane(deaths_list_sort)
 
 
 
@@ -150,8 +154,9 @@ print("Earliest hurricane: " + str(earliest_hurricane[0]) + " - " + str(earliest
 print("Latest hurricane  : " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
 print("Maximum winds     : " + str(maximum_winds[0]) + " - " + str(maximum_winds[1]))
 print("Most damage       : " + str(maximum_damage[0] + " - " + str(maximum_damage[1])))
-
+print("Most deaths       : " + str(maximum_deaths[0] + " - " + str(maximum_deaths[1])))
     #Print lists
 print_dates(date_list, "DATES")
 print_stat(winds_list_sort, "MAXIMUM WINDS")
 print_stat(damages_list_sort, "DAMAGES IN USD (0 MEANS NOT RECORDED)")
+print_stat(deaths_list_sort, "DEATHS")
