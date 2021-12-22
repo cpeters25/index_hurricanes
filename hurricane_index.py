@@ -35,7 +35,7 @@ def main_dictionary(name, month, year, max_winds, areas, damage, death):
     return full_list
 
 main_dictionary(names, months,years, max_sustained_winds, areas_affected, damages, deaths)
-print(full_list)
+# print(full_list)
 
 
 
@@ -46,13 +46,26 @@ def list_of_dates(name, month, year):
     return full_list
 
 list_of_dates(names, months, years)
-print(date_list)
+# print(date_list)
 
 
 
 
 
 
+
+
+## LIST MILESTONE HURRICANES ##
+    # Fund a specific hurricane and list dates for it
+    # Will be used to print the earliest and latest hurricane on list
+def date_hurricane(list,x,y):
+    key = list.keys()[y]
+    month = list.values()[x].values()[0]
+    year = list.values()[x].values()[1]
+    return [key, month, year]
+
+earliest_hurricane = date_hurricane(date_list,0,0)
+latest_hurricane = date_hurricane(date_list,-1,-1)
 
 
 ## PRINT FUNCTIONS ##
@@ -66,6 +79,13 @@ def print_dates(list,string):
         print(str(key) + str(value.values()[0]) + ", " + str(value.values()[1]))
     print("------------------------------------------------------------------")
 
+
+### PRINT DATA TO CONSOLE ###
+    #Print top hurricanes for each category
+print("Earliest hurricane: " + str(earliest_hurricane[0]) + " - " + str(earliest_hurricane[2]) + ", " + str(earliest_hurricane[1]))
+print("Latest hurricane: " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
+
+    #Print lists
 print_dates(date_list, "DATES")
 
 
@@ -90,4 +110,4 @@ def string_to_float(string_list):
     return arr
 
 damages_float = string_to_float(damages)
-print(damages_float)
+# print(damages_float)
