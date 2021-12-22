@@ -48,6 +48,33 @@ def list_of_dates(name, month, year):
 list_of_dates(names, months, years)
 print(date_list)
 
+
+
+
+
+
+
+
+## PRINT FUNCTIONS ##
+    #Print a list of dates
+def print_dates(list,string):
+    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
+    count = 40
+    for key, value in list.items():
+        while len(key) < count:
+            key += " "
+        print(str(key) + str(value.values()[0]) + ", " + str(value.values()[1]))
+    print("------------------------------------------------------------------")
+
+print_dates(date_list, "DATES")
+
+
+
+
+
+
+
+
 ## MISC FUNCTIONS ##
     #Convert strings in damages to float
 def string_to_float(string_list):
