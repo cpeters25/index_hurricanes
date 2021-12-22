@@ -17,6 +17,7 @@ areas_affected = [['Central America', 'Mexico', 'Cuba', 'Florida', 'The Bahamas'
 
 # damages (USD($)) of hurricanes
 damages = ['Damages not recorded', '100M', 'Damages not recorded', '40M', '27.9M', '5M', 'Damages not recorded', '306M', '2M', '65.8M', '326M', '60.3M', '208M', '1.42B', '25.4M', 'Damages not recorded', '1.54B', '1.24B', '7.1B', '10B', '26.5B', '6.2B', '5.37B', '23.3B', '1.01B', '125B', '12B', '29.4B', '1.76B', '720M', '15.1B', '64.8B', '91.6B', '25.1B']
+damages_float = []
 
 # deaths for each hurricane
 deaths = [90,4000,16,3103,179,184,408,682,5,1023,43,319,688,259,37,11,2068,269,318,107,65,19325,51,124,17,1836,125,87,45,133,603,138,3057,74]
@@ -24,73 +25,7 @@ deaths = [90,4000,16,3103,179,184,408,682,5,1023,43,319,688,259,37,11,2068,269,3
 # ordered dictionary placeholders
 full_list = OrderedDict()
 date_list = OrderedDict()
-
-
-
-## DICTIONARY CREATION FUNCTIONS ##
-    #Create main dictionary that houses all stats
-def main_dictionary(name, month, year, max_winds, areas, damage, death):
-    for i in range(len(name)):
-        full_list[name[i]] = OrderedDict([("Month", month[i]),("Year", year[i]),("Maximum winds", max_winds[i]),("Areas affected", areas[i]),("Damages", damage[i]),("Deaths", death[i])])
-    return full_list
-
-main_dictionary(names, months,years, max_sustained_winds, areas_affected, damages, deaths)
-# print(full_list)
-
-
-
-    #Create function for hurricane dates
-def list_of_dates(name, month, year):
-    for i in range(len(name)):
-        date_list[name[i]] = OrderedDict([("Month", month[i]),("Year" , year[i])])
-    return full_list
-
-list_of_dates(names, months, years)
-# print(date_list)
-
-
-
-
-
-
-
-
-## LIST MILESTONE HURRICANES ##
-    # Fund a specific hurricane and list dates for it
-    # Will be used to print the earliest and latest hurricane on list
-def date_hurricane(list,x,y):
-    key = list.keys()[y]
-    month = list.values()[x].values()[0]
-    year = list.values()[x].values()[1]
-    return [key, month, year]
-
-earliest_hurricane = date_hurricane(date_list,0,0)
-latest_hurricane = date_hurricane(date_list,-1,-1)
-
-
-## PRINT FUNCTIONS ##
-    #Print a list of dates
-def print_dates(list,string):
-    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
-    count = 40
-    for key, value in list.items():
-        while len(key) < count:
-            key += " "
-        print(str(key) + str(value.values()[0]) + ", " + str(value.values()[1]))
-    print("------------------------------------------------------------------")
-
-
-### PRINT DATA TO CONSOLE ###
-    #Print top hurricanes for each category
-print("Earliest hurricane: " + str(earliest_hurricane[0]) + " - " + str(earliest_hurricane[2]) + ", " + str(earliest_hurricane[1]))
-print("Latest hurricane: " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
-
-    #Print lists
-print_dates(date_list, "DATES")
-
-
-
-
+winds_list = OrderedDict()
 
 
 
@@ -111,3 +46,105 @@ def string_to_float(string_list):
 
 damages_float = string_to_float(damages)
 # print(damages_float)
+
+
+
+
+## DICTIONARY CREATION FUNCTIONS ##
+    #Create main dictionary that houses all stats
+def main_dictionary(name, month, year, max_winds, areas, damage, death):
+    for i in range(len(name)):
+        full_list[name[i]] = OrderedDict([("Month", month[i]),("Year", year[i]),("Maximum winds", max_winds[i]),("Areas affected", areas[i]),("Damages", damage[i]),("Deaths", death[i])])
+    return full_list
+
+
+    #Create function for hurricane dates
+def list_of_dates(name, month, year):
+    for i in range(len(name)):
+        date_list[name[i]] = OrderedDict([("Month", month[i]),("Year" , year[i])])
+    return full_list
+
+def list_of_stats(name, list, stat, string):
+    for i in range(len(name)):
+        list[name[i]] = OrderedDict([(string, stat[i])])
+    return list
+
+
+    #Execute functions above
+main_dictionary(names, months,years, max_sustained_winds, areas_affected, damages, deaths)
+list_of_dates(names, months, years)
+list_of_stats(names, winds_list, max_sustained_winds, "Maximum Winds")
+
+
+# print(full_list)
+# print(date_list)
+# print(winds_list)
+
+
+
+
+
+## SORT HURRICANES ##
+winds_list_sort = OrderedDict(sorted(winds_list.items(), key=lambda x : x[1], reverse=True))
+
+# print(winds_list_sort)
+
+## LIST MILESTONE HURRICANES ##
+    # Fund a specific hurricane and list dates for it
+    # Will be used to print the earliest and latest hurricane on list
+def date_hurricane(list,x):
+    key = list.keys()[x]
+    month = list.values()[x].values()[0]
+    year = list.values()[x].values()[1]
+    return [key, month, year]
+
+def top_hurricane(list):
+    key = list.keys()[0]
+    value = list.values()[0].values()[0]
+    return [key, value]
+
+    # Store and execute the fuctions above
+earliest_hurricane = date_hurricane(date_list,0)
+latest_hurricane = date_hurricane(date_list,-1)
+maximum_winds = top_hurricane(winds_list_sort)
+
+
+
+
+
+
+
+## PRINT FUNCTIONS ##
+    #Print a list of dates
+def print_dates(list,string):
+    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
+    count = 40
+    for key, value in list.items():
+        while len(key) < count:
+            key += " "
+        print(str(key) + str(value.values()[0]) + ", " + str(value.values()[1]))
+    print("------------------------------------------------------------------")
+
+def print_stat(list,string):
+    print("\n\n\n\n\n" + str(string) + "\n------------------------------------------------------------------")
+    count = 40
+    for key, value in list.items():
+        while len(key) < count:
+            key += " "
+        print(str(key) + str(value.values()[0]))
+    print("------------------------------------------------------------------")
+
+
+
+
+
+
+### PRINT DATA TO CONSOLE ###
+    #Print top hurricanes for each category
+print("Earliest hurricane: " + str(earliest_hurricane[0]) + " - " + str(earliest_hurricane[2]) + ", " + str(earliest_hurricane[1]))
+print("Latest hurricane  : " + str(latest_hurricane[0]) + " - " + str(latest_hurricane[2]) + ", " + str(latest_hurricane[1]))
+print("Maximum winds     : " + str(maximum_winds[0]) + " - " + str(maximum_winds[1]))
+
+    #Print lists
+print_dates(date_list, "DATES")
+print_stat(winds_list_sort, "MAXIMUM WINDS")
