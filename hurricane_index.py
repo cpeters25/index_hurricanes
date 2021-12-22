@@ -18,3 +18,23 @@ damages = ['Damages not recorded', '100M', 'Damages not recorded', '40M', '27.9M
 
 # deaths for each hurricane
 deaths = [90,4000,16,3103,179,184,408,682,5,1023,43,319,688,259,37,11,2068,269,318,107,65,19325,51,124,17,1836,125,87,45,133,603,138,3057,74]
+
+
+
+
+## MISC FUNCTIONS ##
+    #Convert strings in damages to float
+def string_to_float(string_list):
+    arr = []
+    for i in string_list:
+        if (i != "Damages not recorded"):
+            if (i[-1] == "M"):
+                arr.append(float(i[:-1]) * 10 ** 6)
+            elif (i[-1] == "B"):
+                arr.append(float(i[:-1]) * 10 ** 9)
+        else:
+            arr.append(0)
+    return arr
+
+damages_float = string_to_float(damages)
+print(damages_float)
